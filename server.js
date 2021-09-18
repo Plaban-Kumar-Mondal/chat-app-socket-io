@@ -21,18 +21,8 @@ mongoose
   .then(() => console.log("Database connected"))
   .catch((error) => console.log(error));
 
-app.set("view engine", "ejs");
-app.set("views", path.join(__dirname, "views"));
-
-app.use(express.urlencoded({ extended: true }));
-
-app.get("/", (req, res) => {
-  res.render("home");
-});
-
-// app.post("/chatmsg", async (req, res) => {
-//   res.send(req.body);
-// });
+// Set static folder
+app.use(express.static(path.join(__dirname, "public")));
 
 io.on("connection", (socket) => {
   Message.find().then((result) => {
