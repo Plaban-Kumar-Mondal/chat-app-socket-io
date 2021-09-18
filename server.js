@@ -15,7 +15,8 @@ mongoose
     useNewUrlParser: true,
     useUnifiedTopology: true,
   })
-  .then(() => console.log("Database connected"));
+  .then(() => console.log("Database connected"))
+  .catch((error) => console.log(error));
 
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
