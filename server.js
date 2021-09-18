@@ -30,9 +30,9 @@ app.get("/", (req, res) => {
   res.render("home");
 });
 
-app.post("/chatmsg", async (req, res) => {
-  res.send(req.body);
-});
+// app.post("/chatmsg", async (req, res) => {
+//   res.send(req.body);
+// });
 
 io.on("connection", (socket) => {
   Message.find().then((result) => {
@@ -41,7 +41,7 @@ io.on("connection", (socket) => {
 
   socket.emit("welcome-msg", "Welcome to chat app!");
 
-  // emitting chats
+  // getting chats
   socket.on("chatMessage", (msg) => {
     const message = new Message({ msg });
     message.save().then(() => {
