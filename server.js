@@ -9,10 +9,12 @@ const io = require("socket.io")(server);
 // importing models
 const Message = require("./models/message");
 
+// database connection string
 const DATABASE = process.env.DATABASE
   ? process.env.DATABASE
   : `mongodb://localhost:27017/chat-app-socket-io`;
 
+// connecting to database
 mongoose
   .connect(DATABASE, {
     useNewUrlParser: true,
@@ -24,7 +26,9 @@ mongoose
 // Set static folder
 app.use(express.static(path.join(__dirname, "public")));
 
+// making a single connection to server
 io.on("connection", (socket) => {
+  // find previous messages from database and show
   Message.find().then((result) => {
     socket.emit("old-msg", result);
   });
@@ -34,6 +38,8 @@ io.on("connection", (socket) => {
   // getting chats
   socket.on("chatMessage", (msg) => {
     const message = new Message({ msg });
+
+    //saving the message to database then emitting it to server
     message.save().then(() => {
       io.emit("chat-msg", msg);
     });
